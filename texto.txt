@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spice & Pearl — Menú</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8A030;
+    --deep: #1A0A00;
+    --card: #2A1400;
+    --border: rgba(232,160,48,0.25);
+    --text: #F5ECD7;
+    --muted: #A08060;
+    --green: #4CAF7D;
+    --red: #E05550;
+  }
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+background: var(–deep);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+}
+
+/* ─── HERO ─── */
+.hero {
+background: linear-gradient(160deg, #2A0D00 0%, #1A0A00 60%);
+padding: 48px 20px 32px;
+text-align: center;
+border-bottom: 1px solid var(–border);
+position: relative;
+overflow: hidden;
+}
+.hero::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232,160,48,0.18), transparent);
+}
+.hero-logo {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(28px, 8vw, 44px);
+color: var(–saffron);
+letter-spacing: 2px;
+position: relative;
+}
+.hero-sub {
+font-size: 12px;
+letter-spacing: 5px;
+text-transform: uppercase;
+color: var(–muted);
+margin-top: 6px;
+position: relative;
+}
+.hero-tagline {
+margin-top: 14px;
+font-family: ‘Playfair Display’, serif;
+font-style: italic;
+font-size: 15px;
+color: var(–muted);
+position: relative;
+}
+
+/* ─── TABLE INPUT ─── */
+.table-bar {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 16px 20px;
+background: var(–card);
+border-bottom: 1px solid var(–border);
+}
+.table-bar label {
+font-size: 13px;
+color: var(–muted);
+white-space: nowrap;
+}
+.table-bar input {
+flex: 1;
+background: var(–deep);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px 14px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+outline: none;
+transition: border-color .2s;
+}
+.table-bar input:focus { border-color: var(–saffron); }
+
+/* ─── TABS ─── */
+.tabs {
+display: flex;
+overflow-x: auto;
+gap: 4px;
+padding: 16px 20px 0;
+scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display:none; }
+.tab {
+white-space: nowrap;
+padding: 8px 18px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+border: 1px solid var(–border);
+color: var(–muted);
+background: transparent;
+transition: all .2s;
+}
+.tab.active {
+background: var(–saffron);
+color: var(–deep);
+border-color: var(–saffron);
+font-weight: 700;
+}
+
+/* ─── MENU GRID ─── */
+.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+color: var(–saffron);
+padding: 24px 20px 12px;
+border-bottom: 1px solid var(–border);
+margin: 0 20px;
+}
+.menu-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 12px;
+padding: 16px 20px;
+}
+@media(min-width:520px) {
+.menu-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.menu-item {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 14px;
+padding: 16px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+transition: border-color .2s, transform .15s;
+cursor: pointer;
+position: relative;
+overflow: hidden;
+}
+.menu-item:hover { border-color: var(–saffron); transform: translateY(-2px); }
+.menu-item.selected {
+border-color: var(–saffron);
+background: #321800;
+}
+.menu-item.selected::after {
+content: ‘✓’;
+position: absolute;
+top: 12px; right: 14px;
+width: 24px; height: 24px;
+background: var(–saffron);
+color: var(–deep);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 800;
+font-size: 13px;
+line-height: 24px;
+text-align: center;
+}
+.item-emoji { font-size: 28px; }
+.item-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 15px;
+line-height: 1.3;
+padding-right: 28px;
+}
+.item-desc {
+font-size: 12px;
+color: var(–muted);
+line-height: 1.5;
+}
+.item-bottom {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 4px;
+}
+.item-price {
+font-size: 16px;
+font-weight: 700;
+color: var(–saffron);
+}
+.item-qty {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.qty-btn {
+width: 28px; height: 28px;
+border-radius: 50%;
+border: 1px solid var(–border);
+background: var(–deep);
+color: var(–text);
+font-size: 18px;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+transition: background .15s;
+line-height: 1;
+}
+.qty-btn:hover { background: var(–saffron); color: var(–deep); border-color: var(–saffron); }
+.qty-num {
+font-weight: 700;
+min-width: 16px;
+text-align: center;
+font-size: 15px;
+}
+
+/* ─── CART SUMMARY ─── */
+.cart-bar {
+position: sticky;
+bottom: 0;
+background: #2A1400;
+border-top: 1px solid var(–border);
+padding: 16px 20px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+}
+.cart-items-preview {
+font-size: 12px;
+color: var(–muted);
+line-height: 1.6;
+max-height: 80px;
+overflow-y: auto;
+}
+.cart-total {
+font-family: ‘Playfair Display’, serif;
+font-size: 18px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.cart-total span:last-child { color: var(–saffron); }
+
+.name-row {
+display: flex;
+gap: 10px;
+}
+.name-row input {
+flex: 1;
+background: var(–deep);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 11px 14px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+outline: none;
+transition: border-color .2s;
+}
+.name-row input:focus { border-color: var(–saffron); }
+
+.send-btn {
+width: 100%;
+padding: 16px;
+background: var(–saffron);
+color: var(–deep);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 700;
+font-size: 16px;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+letter-spacing: 1px;
+transition: filter .2s, transform .15s;
+}
+.send-btn:hover { filter: brightness(1.1); transform: scale(1.01); }
+.send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+display: none;
+position: fixed; inset: 0;
+background: rgba(0,0,0,0.75);
+z-index: 100;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 20px;
+padding: 32px 24px;
+max-width: 360px;
+width: 100%;
+text-align: center;
+}
+.modal-icon { font-size: 52px; margin-bottom: 16px; }
+.modal h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+color: var(–saffron);
+margin-bottom: 10px;
+}
+.modal p { font-size: 14px; color: var(–muted); line-height: 1.6; }
+.modal-btn {
+margin-top: 24px;
+padding: 14px 32px;
+background: var(–saffron);
+color: var(–deep);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 700;
+border: none;
+border-radius: 10px;
+font-size: 15px;
+cursor: pointer;
+transition: filter .2s;
+}
+.modal-btn:hover { filter: brightness(1.1); }
+
+/* ─── ADMIN PANEL ─── */
+#adminPanel {
+display: none;
+position: fixed; inset: 0;
+background: var(–deep);
+overflow-y: auto;
+z-index: 200;
+padding: 24px 20px 40px;
+}
+#adminPanel.open { display: block; }
+.admin-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 24px;
+}
+.admin-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+color: var(–saffron);
+}
+.admin-close {
+background: var(–card);
+border: 1px solid var(–border);
+color: var(–text);
+padding: 8px 16px;
+border-radius: 8px;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+}
+.inventory-grid {
+display: grid;
+gap: 10px;
+}
+.inv-item {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 14px 16px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.inv-item .inv-emoji { font-size: 22px; }
+.inv-item .inv-name {
+flex: 1;
+font-size: 14px;
+}
+.inv-status {
+display: flex;
+gap: 6px;
+}
+.inv-btn {
+padding: 6px 12px;
+border-radius: 6px;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+border: none;
+transition: filter .15s;
+}
+.inv-btn.ok { background: rgba(76,175,125,0.2); color: var(–green); }
+.inv-btn.low { background: rgba(224,85,80,0.2); color: var(–red); }
+.inv-btn.ok.active { background: var(–green); color: white; }
+.inv-btn.low.active { background: var(–red); color: white; }
+.send-inventory-btn {
+margin-top: 20px;
+width: 100%;
+padding: 14px;
+background: #25D366;
+color: white;
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 700;
+font-size: 15px;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+transition: filter .2s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+.send-inventory-btn:hover { filter: brightness(1.1); }
+.admin-subtitle {
+font-size: 12px;
+color: var(–muted);
+letter-spacing: 3px;
+text-transform: uppercase;
+margin-bottom: 14px;
+margin-top: 28px;
+}
+.orders-list { display: grid; gap: 12px; }
+.order-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 16px;
+}
+.order-card-header {
+display: flex;
+justify-content: space-between;
+margin-bottom: 8px;
+}
+.order-card-header span:first-child {
+font-weight: 700;
+color: var(–saffron);
+}
+.order-card-body {
+font-size: 13px;
+color: var(–muted);
+line-height: 1.6;
+}
+
+.hidden { display: none !important; }
+
+/* admin trigger (hidden corner tap) */
+.admin-trigger {
+position: fixed;
+bottom: 0; right: 0;
+width: 60px; height: 60px;
+cursor: pointer;
+z-index: 300;
+opacity: 0;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ════════════════ MAIN MENU PAGE ════════════════ -->
+
+<div id="menuPage">
+
+  <div class="hero">
+    <div class="hero-logo">Spice & Pearl</div>
+    <div class="hero-sub">Cocina India · Filipina</div>
+    <div class="hero-tagline">Sabores del mundo en cada plato</div>
+  </div>
+
+  <div class="table-bar">
+    <label>🪑 Mesa #</label>
+    <input type="number" id="tableNum" placeholder="Ej: 3" min="1" max="50">
+  </div>
+
+  <div class="tabs" id="categoryTabs"></div>
+  <div id="menuContainer"></div>
+
+  <!-- Cart sticky bar -->
+
+  <div class="cart-bar" id="cartBar" style="display:none">
+    <div class="cart-items-preview" id="cartPreview"></div>
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0</span>
+    </div>
+    <div class="name-row">
+      <input type="text" id="clientName" placeholder="Tu nombre (opcional)">
+    </div>
+    <button class="send-btn" id="sendBtn" onclick="submitOrder()">
+      📲 Enviar Orden por WhatsApp
+    </button>
+  </div>
+
+</div>
+
+<!-- ════════════════ SUCCESS MODAL ════════════════ -->
+
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h2>¡Orden enviada!</h2>
+    <p>Tu pedido fue enviado a la cocina. Enseguida te atendemos 😊</p>
+    <button class="modal-btn" onclick="resetOrder()">Hacer otro pedido</button>
+  </div>
+</div>
+
+<!-- ════════════════ ADMIN PANEL ════════════════ -->
+
+<div id="adminPanel">
+  <div class="admin-header">
+    <div class="admin-title">🧑‍🍳 Panel de Yuliana</div>
+    <button class="admin-close" onclick="closeAdmin()">✕ Cerrar</button>
+  </div>
+
+  <div class="admin-subtitle">📦 Inventario del almacén</div>
+  <div class="inventory-grid" id="inventoryGrid"></div>
+  <button class="send-inventory-btn" onclick="sendInventoryReport()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    Enviar reporte de inventario por WhatsApp
+  </button>
+
+  <div class="admin-subtitle" style="margin-top:32px">📋 Últimas órdenes recibidas</div>
+  <div class="orders-list" id="ordersList">
+    <p style="font-size:13px;color:var(--muted)">Las órdenes aparecen aquí cuando las clientes las envían por WhatsApp.</p>
+  </div>
+</div>
+
+<!-- Hidden admin trigger (tap esquina inferior derecha 3 veces) -->
+
+<div class="admin-trigger" id="adminTrigger"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  CONFIGURACIÓN — EDITA ESTE NÚMERO DE WHATSAPP
+// ══════════════════════════════════════════════════
+const WHATSAPP_NUMBER = "50660542182"; // ← Cambia por el número real de Yuliana (con código de país, sin +)
+
+// ══════════════════════════════════════════════════
+//  MENÚ DEL RESTAURANTE
+// ══════════════════════════════════════════════════
+const menu = [
+  // ─── INDIA ───
+  { id:1, cat:"🇮🇳 India",    emoji:"🍛", name:"Butter Chicken",       desc:"Pollo en salsa de mantequilla y tomate especiado",  price:28000 },
+  { id:2, cat:"🇮🇳 India",    emoji:"🥘", name:"Palak Paneer",          desc:"Queso fresco en crema de espinacas y especias",     price:24000 },
+  { id:3, cat:"🇮🇳 India",    emoji:"🫘", name:"Dal Makhani",           desc:"Lentejas negras con crema y especias",             price:21000 },
+  { id:4, cat:"🇮🇳 India",    emoji:"🍢", name:"Chicken Tikka Masala",  desc:"Pollo marinado al horno en salsa masala",          price:30000 },
+  { id:5, cat:"🇮🇳 India",    emoji:"🫓", name:"Garlic Naan",           desc:"Pan de ajo horneado en tandoor",                   price:8000  },
+  { id:6, cat:"🇮🇳 India",    emoji:"🍚", name:"Biryani de Pollo",      desc:"Arroz basmati con pollo, azafrán y especias",      price:32000 },
+  // ─── FILIPINA ───
+  { id:7, cat:"🇵🇭 Filipina", emoji:"🥩", name:"Adobo de Cerdo",        desc:"Cerdo estofado en vinagre, soya y ajo",            price:26000 },
+  { id:8, cat:"🇵🇭 Filipina", emoji:"🍖", name:"Lechón Kawali",         desc:"Cerdo frito crujiente con salsa de hígado",        price:29000 },
+  { id:9, cat:"🇵🇭 Filipina", emoji:"🍲", name:"Sinigang de Camarón",   desc:"Sopa agria con camarones y verduras",              price:31000 },
+  { id:10,cat:"🇵🇭 Filipina", emoji:"🐔", name:"Chicken Inasal",        desc:"Pollo marinado a la parrilla con achote",          price:27000 },
+  { id:11,cat:"🇵🇭 Filipina", emoji:"🍜", name:"Pancit Bihon",          desc:"Fideos de arroz salteados con pollo y verduras",   price:22000 },
+  { id:12,cat:"🇵🇭 Filipina", emoji:"🧆", name:"Lumpia Shanghai",       desc:"Rollitos fritos rellenos de cerdo y vegetales",    price:16000 },
+  // ─── BEBIDAS ───
+  { id:13,cat:"🥤 Bebidas",   emoji:"🧃", name:"Lassi de Mango",        desc:"Yogur batido con mango fresco",                    price:10000 },
+  { id:14,cat:"🥤 Bebidas",   emoji:"🍵", name:"Masala Chai",           desc:"Té con especias, jengibre y leche",                price:8000  },
+  { id:15,cat:"🥤 Bebidas",   emoji:"🥤", name:"Calamansi Juice",       desc:"Limonada filipina fresca",                         price:7000  },
+  { id:16,cat:"🥤 Bebidas",   emoji:"💧", name:"Agua",                  desc:"Agua fría 500ml",                                  price:3000  },
+  // ─── POSTRES ───
+  { id:17,cat:"🍮 Postres",   emoji:"🍮", name:"Gulab Jamun",           desc:"Bolitas de leche en almíbar de rosa",              price:10000 },
+  { id:18,cat:"🍮 Postres",   emoji:"🍨", name:"Halo-Halo",             desc:"Postre filipino de hielo, frijoles y helado",      price:12000 },
+];
+
+// ──────────────────────────────────────────────────
+//  INVENTARIO
+// ──────────────────────────────────────────────────
+const inventory = [
+  { id:"i1",  emoji:"🐔", name:"Pollo"              },
+  { id:"i2",  emoji:"🥩", name:"Cerdo"              },
+  { id:"i3",  emoji:"🍅", name:"Tomates"            },
+  { id:"i4",  emoji:"🧅", name:"Cebolla"            },
+  { id:"i5",  emoji:"🧄", name:"Ajo"                },
+  { id:"i6",  emoji:"🥛", name:"Leche / Crema"      },
+  { id:"i7",  emoji:"🧀", name:"Paneer (queso)"     },
+  { id:"i8",  emoji:"🫘", name:"Lentejas Dal"       },
+  { id:"i9",  emoji:"🌿", name:"Espinacas"          },
+  { id:"i10", emoji:"🍚", name:"Arroz Basmati"      },
+  { id:"i11", emoji:"🌶️", name:"Especias / Masala"  },
+  { id:"i12", emoji:"🫙", name:"Salsa de Soya"      },
+  { id:"i13", emoji:"🥚", name:"Huevos"             },
+  { id:"i14", emoji:"🦐", name:"Camarones"          },
+  { id:"i15", emoji:"🌾", name:"Harina para Naan"   },
+  { id:"i16", emoji:"🫚", name:"Aceite"             },
+  { id:"i17", emoji:"🥭", name:"Mango"              },
+  { id:"i18", emoji:"🍵", name:"Té / Chai"          },
+];
+
+let invState = {}; // "ok" | "low" | null
+inventory.forEach(i => invState[i.id] = "ok");
+
+// ══════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════
+let cart = {}; // id → qty
+
+// ══════════════════════════════════════════════════
+//  BUILD MENU
+// ══════════════════════════════════════════════════
+const cats = [...new Set(menu.map(i => i.cat))];
+
+function buildTabs() {
+  const tabs = document.getElementById("categoryTabs");
+  tabs.innerHTML = "";
+  const all = document.createElement("button");
+  all.className = "tab active";
+  all.textContent = "Todos";
+  all.onclick = () => filterCat(null, all);
+  tabs.appendChild(all);
+  cats.forEach(c => {
+    const t = document.createElement("button");
+    t.className = "tab";
+    t.textContent = c;
+    t.onclick = () => filterCat(c, t);
+    tabs.appendChild(t);
+  });
+}
+
+function buildMenu(items) {
+  const container = document.getElementById("menuContainer");
+  container.innerHTML = "";
+  cats.forEach(cat => {
+    const catItems = items.filter(i => i.cat === cat);
+    if (!catItems.length) return;
+    const title = document.createElement("div");
+    title.className = "section-title";
+    title.textContent = cat;
+    container.appendChild(title);
+    const grid = document.createElement("div");
+    grid.className = "menu-grid";
+    catItems.forEach(item => {
+      grid.innerHTML += `
+        <div class="menu-item ${cart[item.id] ? 'selected' : ''}" id="card-${item.id}" onclick="toggleItem(${item.id})">
+          <div class="item-emoji">${item.emoji}</div>
+          <div class="item-name">${item.name}</div>
+          <div class="item-desc">${item.desc}</div>
+          <div class="item-bottom">
+            <div class="item-price">${formatPrice(item.price)}</div>
+            <div class="item-qty" onclick="event.stopPropagation()">
+              <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+              <span class="qty-num" id="qty-${item.id}">${cart[item.id] || 0}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+            </div>
+          </div>
+        </div>`;
+    });
+    container.appendChild(grid);
+  });
+}
+
+function filterCat(cat, el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  buildMenu(cat ? menu.filter(i => i.cat === cat) : menu);
+}
+
+function formatPrice(p) {
+  return "$" + p.toLocaleString("es-CO");
+}
+
+// ══════════════════════════════════════════════════
+//  CART LOGIC
+// ══════════════════════════════════════════════════
+function toggleItem(id) {
+  if (!cart[id]) {
+    cart[id] = 1;
+  }
+  refreshCard(id);
+  updateCart();
+}
+
+function changeQty(id, delta) {
+  cart[id] = Math.max(0, (cart[id] || 0) + delta);
+  if (cart[id] === 0) delete cart[id];
+  refreshCard(id);
+  updateCart();
+}
+
+function refreshCard(id) {
+  const card = document.getElementById("card-" + id);
+  const qtyEl = document.getElementById("qty-" + id);
+  if (!card) return;
+  if (cart[id]) {
+    card.classList.add("selected");
+    qtyEl.textContent = cart[id];
+  } else {
+    card.classList.remove("selected");
+    qtyEl.textContent = 0;
+  }
+}
+
+function updateCart() {
+  const ids = Object.keys(cart);
+  const bar = document.getElementById("cartBar");
+  if (!ids.length) { bar.style.display = "none"; return; }
+  bar.style.display = "flex";
+
+  let total = 0;
+  let preview = "";
+  ids.forEach(id => {
+    const item = menu.find(m => m.id == id);
+    total += item.price * cart[id];
+    preview += `${item.name} × ${cart[id]}  —  ${formatPrice(item.price * cart[id])}\n`;
+  });
+  document.getElementById("cartPreview").textContent = preview;
+  document.getElementById("cartTotal").textContent = formatPrice(total);
+}
+
+// ══════════════════════════════════════════════════
+//  SUBMIT ORDER → WHATSAPP
+// ══════════════════════════════════════════════════
+function submitOrder() {
+  const table = document.getElementById("tableNum").value.trim();
+  const name  = document.getElementById("clientName").value.trim();
+  if (!table) { alert("Por favor ingresa el número de mesa 🪑"); return; }
+  if (!Object.keys(cart).length) { alert("Agrega algo al carrito primero 😊"); return; }
+
+  let msg = `🍽️ *NUEVA ORDEN — Spice & Pearl*\n`;
+  msg += `🪑 *Mesa:* ${table}\n`;
+  msg += `👤 *Nombre:* ${name || "Anónimo"}\n\n`;
+  msg += `*Pedido:*\n`;
+
+  let total = 0;
+  Object.keys(cart).forEach(id => {
+    const item = menu.find(m => m.id == id);
+    const subtotal = item.price * cart[id];
+    total += subtotal;
+    msg += `  • ${item.emoji} ${item.name} × ${cart[id]} = ${formatPrice(subtotal)}\n`;
+  });
+  msg += `\n💰 *TOTAL: ${formatPrice(total)}*`;
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank");
+  document.getElementById("successModal").classList.add("open");
+}
+
+function resetOrder() {
+  cart = {};
+  document.getElementById("tableNum").value = "";
+  document.getElementById("clientName").value = "";
+  document.getElementById("cartBar").style.display = "none";
+  document.getElementById("successModal").classList.remove("open");
+  buildMenu(menu);
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════════
+//  ADMIN PANEL
+// ══════════════════════════════════════════════════
+function buildInventory() {
+  const grid = document.getElementById("inventoryGrid");
+  grid.innerHTML = "";
+  inventory.forEach(item => {
+    const state = invState[item.id];
+    grid.innerHTML += `
+      <div class="inv-item">
+        <span class="inv-emoji">${item.emoji}</span>
+        <span class="inv-name">${item.name}</span>
+        <div class="inv-status">
+          <button class="inv-btn ok ${state==='ok'?'active':''}" onclick="setInv('${item.id}','ok',this)">✓ Hay</button>
+          <button class="inv-btn low ${state==='low'?'active':''}" onclick="setInv('${item.id}','low',this)">⚠ Falta</button>
+        </div>
+      </div>`;
+  });
+}
+
+function setInv(id, state, btn) {
+  invState[id] = state;
+  const parent = btn.closest(".inv-status");
+  parent.querySelectorAll(".inv-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function sendInventoryReport() {
+  const falta = inventory.filter(i => invState[i.id] === "low");
+  const hay   = inventory.filter(i => invState[i.id] === "ok");
+
+  let msg = `📦 *REPORTE DE INVENTARIO — Spice & Pearl*\n`;
+  msg += `📅 ${new Date().toLocaleDateString("es-CO", {weekday:"long", day:"numeric", month:"long"})}\n\n`;
+
+  if (falta.length) {
+    msg += `❌ *FALTA / Necesitas comprar:*\n`;
+    falta.forEach(i => msg += `  • ${i.emoji} ${i.name}\n`);
+  } else {
+    msg += `✅ ¡Todo el inventario está completo!\n`;
+  }
+
+  if (hay.length && falta.length) {
+    msg += `\n✅ *Disponible:*\n`;
+    hay.forEach(i => msg += `  • ${i.emoji} ${i.name}\n`);
+  }
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank");
+}
+
+// ─── Admin secret: triple tap corner ───
+let tapCount = 0, tapTimer;
+document.getElementById("adminTrigger").addEventListener("click", () => {
+  tapCount++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => tapCount = 0, 1000);
+  if (tapCount >= 3) {
+    tapCount = 0;
+    openAdmin();
+  }
+});
+
+function openAdmin() {
+  buildInventory();
+  document.getElementById("adminPanel").classList.add("open");
+}
+function closeAdmin() {
+  document.getElementById("adminPanel").classList.remove("open");
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+buildTabs();
+buildMenu(menu);
+</script>
+
+</body>
+</html>
