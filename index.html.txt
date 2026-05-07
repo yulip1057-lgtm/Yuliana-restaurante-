@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Menú</title>
+</head>
+<body>
+  <h1>Menú del Restaurante</h1>
+  <p>Bienvenidos 💗</p>
+
+  <h2>Comidas</h2>
+  <p>Hamburguesa - ₡3500</p>
+  <p>Pizza - ₡5000</p>
+
+  <h2>Bebidas</h2>
+  <p>Gaseosa - ₡1200</p>
+</body>
+</html>
